@@ -1,0 +1,8 @@
+
+!include sources.inc
+
+TARGETNAME = rowhammer
+
+C_DEFINES= $(C_DEFINES)  -DCLASS_LOWER=1
+DRIVER_ALIGNMENT=0x200 
+

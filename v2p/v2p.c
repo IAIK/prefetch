@@ -181,6 +181,12 @@ void noploop()
 int main(int argc, char** argv)
 {
   pthread_create(nopthread+0,0,noploop,0);
+  pthread_create(nopthread+0,0,noploop,0);
+  pthread_create(nopthread+0,0,noploop,0);
+  pthread_create(nopthread+0,0,noploop,0);
+  pthread_create(nopthread+0,0,noploop,0);
+  pthread_create(nopthread+0,0,noploop,0);
+  pthread_create(nopthread+0,0,noploop,0);
   init_pagemap();
   void* array = mmap(NULL, 1024*1024*1024, PROT_READ | PROT_WRITE, MAP_POPULATE | MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
   void* virt = (void*)((size_t)array+2*1024*1024 >> 21 << 21);
@@ -193,7 +199,7 @@ int main(int argc, char** argv)
   size_t iaddr = paddr + 0xffff880000000000ull;
   printf("%16p -> %zx -> %zx -> %zx\n",virt,pte,paddr, iaddr);
   //for (size_t phys = 0xffff880000000000ull; phys < 0xffff880000000000ull + 12ull*1024*1024*1024; phys += 2*1024*1024)
-  for (size_t phys = iaddr - 64*4096; phys < iaddr + 64*4096; phys += 4096)
+  for (size_t phys = iaddr - 16*4096; phys < iaddr + 16*4096; phys += 4096)
   //for (size_t phys = 0xffff880000000000ull; phys < iaddr + 128*1024*1024; phys += 2*1024*1024)
   //size_t phys = iaddr; while (1)
   {
@@ -204,7 +210,8 @@ int main(int argc, char** argv)
     while (i-- > 0)
     {
       size_t d = onlyreload(virt,phys);
-      hit_histogram[d]++;
+      if (d < 1000)
+        hit_histogram[d]++;
       if (d > 250)
         continue;
       else if (d < 200)
